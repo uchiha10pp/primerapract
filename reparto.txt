@@ -1,0 +1,68 @@
+drop database reparto;
+create database reparto;
+use reparto;
+
+create table camionero (
+	rfc int primary key auto_increment,
+    nombre varchar (40),
+    telefono char (9),
+    direccion varchar (40),
+    salario int,
+    poblacion varchar (40)
+    
+);
+
+create table camiones (
+	placa int primary key auto_increment,
+    modelo varchar (40),
+    tipo varchar (40),
+    potencia varchar (20)
+    
+);
+
+create table ciudad (
+	apartado int primary key auto_increment,
+    nombre varchar (40)
+
+);
+
+create table conduce (
+	id int primary key auto_increment,
+	rfc_camionero int,
+    placa_camiones int,
+    
+	constraint fk_camionero_conduce FOREIGN KEY (rfc_camionero) REFERENCES camionero(rfc),
+    constraint fk_camiones FOREIGN KEY (placa_camiones) REFERENCES camiones(placa)
+);
+
+create table paquetes (
+	cod int primary key auto_increment,
+    descripcion varchar (60),
+    destino varchar (40),
+    dire_destinatario varchar (40),
+    rfc_camionero int,
+    apartado_ciudad int,
+    
+    constraint fk_camionero FOREIGN KEY (rfc_camionero) REFERENCES camionero(rfc),
+    constraint fk_ciudad FOREIGN KEY (apartado_ciudad) REFERENCES ciudad(apartado)
+);
+
+insert into camionero(nombre, telefono, direccion, salario, poblacion) values ("PABLO", "999111222", "JR.LAS MALCRIADAS", 1000, "HUANUCO");
+insert into camionero(nombre, telefono, direccion, salario, poblacion) values ("JUAN", "999222333", "JR.LOS BANDIDOS", 1000, "HUANUCO");
+insert into camionero(nombre, telefono, direccion, salario, poblacion) values ("MARCOS", "999333444", "JR.LA FLOTA", 1000, "HUANUCO");
+
+insert into camiones(modelo, tipo, potencia) values ("2019", "1 CARRIL", "200 HP");
+insert into camiones(modelo, tipo, potencia) values ("2020", "2 CARRIL", "200 HP");
+insert into camiones(modelo, tipo, potencia) values ("2021", "1 CARRIL", "300 HP");
+
+insert into ciudad(nombre) values ("LIMA");
+insert into ciudad(nombre) values ("HUANUCO");
+insert into ciudad(nombre) values ("PIURA");
+
+insert into conduce(rfc_camionero, placa_camiones) values (1, 1);
+insert into conduce(rfc_camionero, placa_camiones) values (2, 2);
+insert into conduce(rfc_camionero, placa_camiones) values (3, 3);
+
+insert into paquetes(descripcion, destino, dire_destinatario, rfc_camionero, apartado_ciudad) values ("BOLSA DE PAPA", "LIMA", "JR.LAS MORAS", 1, 1);
+insert into paquetes(descripcion, destino, dire_destinatario, rfc_camionero, apartado_ciudad) values ("BOLSA DE MOTE", "HUANCAYO", "JR.LOS ROBLES", 2, 2);
+insert into paquetes(descripcion, destino, dire_destinatario, rfc_camionero, apartado_ciudad) values ("CAJA CELULAR", "PIURA", "JR.LAMAS", 3, 3);
